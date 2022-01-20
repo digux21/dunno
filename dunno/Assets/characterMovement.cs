@@ -6,8 +6,12 @@ public class characterMovement : MonoBehaviour
 {
     public CharacterController con;
     [SerializeField] float speed;
+    [SerializeField] float sprinSpeed;
+    [SerializeField] float walkSpeed;
     [SerializeField] float gravity;
     [SerializeField] float jumpDis;
+    [SerializeField] float normalHeight;
+    [SerializeField] float crouchHeight;
 
     [SerializeField] float groundDis;
     public Transform groundcheck;
@@ -18,9 +22,12 @@ public class characterMovement : MonoBehaviour
 
 
     [SerializeField] KeyCode jumpKey;
+    [SerializeField] KeyCode sprintKey;
+    [SerializeField] KeyCode crouchKey;
     // Start is called before the first frame update
     void Start()
     {
+        speed = walkSpeed;
         
     }
 
@@ -42,6 +49,20 @@ public class characterMovement : MonoBehaviour
         if(Input.GetKey(jumpKey)&& isgrounded)
         {
             velocity.y = Mathf.Sqrt(jumpDis * -2f * gravity);
+        }
+        if (Input.GetKey(sprintKey))
+        {
+            speed = sprinSpeed;
+        }else
+        {
+            speed = walkSpeed;
+        }
+        if (Input.GetKey(crouchKey) && isgrounded)
+        {
+            con.height = crouchHeight;
+        }else
+        {
+            con.height = normalHeight;
         }
 
         velocity.y += gravity * Time.deltaTime;
